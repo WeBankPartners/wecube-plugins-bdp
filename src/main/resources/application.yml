@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  banner:
+    location: classpath:/banner.txt
+wecube:
+  plugins:
+    bdp:
+      server: localhost:8080
