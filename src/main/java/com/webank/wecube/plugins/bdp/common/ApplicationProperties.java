@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author howechen
  */
-@ConfigurationProperties(prefix = "wecube.plugins.bdp")
+@ConfigurationProperties(prefix = "plugins.itsm.s3")
 public class ApplicationProperties {
     private String host;
     private String port;

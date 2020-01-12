@@ -6,9 +6,9 @@ spring:
   banner:
     location: classpath:/banner.txt
 
-wecube:
-  plugins:
-    bdp:
+plugins:
+  itsm:
+    s3:
       host: 129.204.99.160
       port: 9000
       username: access_key
