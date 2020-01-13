@@ -160,7 +160,7 @@ public class RestTemplateUtils {
             throw new BdpException(msg, e);
         }
 
-        if (!OpsResponseDto.STATUS_OK.equals(opsResponseDto.getCode())) {
+        if (OpsResponseDto.STATUS_OK != opsResponseDto.getCode()) {
             String msg = String.format("Request error! The error message is [%s]", opsResponseDto.getMessage());
             throw new BdpException(msg);
         }

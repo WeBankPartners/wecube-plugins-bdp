@@ -4,16 +4,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.util.Base64Utils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JsonUtils {
 
     public static String toJsonString(Object object) {
-        if (object == null) return "";
+        if (object == null) {
+            return "";
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -22,6 +27,14 @@ public class JsonUtils {
         } catch (JsonProcessingException e) {
             return String.valueOf(object);
         }
+    }
+
+    public static String toBase64String(String jsonString) {
+        return Base64Utils.encodeToString(jsonString.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static String fromBase64String(String base64String) {
+        return Arrays.toString(Base64Utils.decodeFromString(base64String));
     }
 
     public static <T> List<T> toList(String jsonContent, Class<T> clzz) throws IOException {
