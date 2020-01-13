@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping(ApplicationConstants.ApiInfo.URL_PREFIX)
 public class OpsRequestController {
 
-    @Autowired
     private OpsRequestServiceImpl opsRequestService;
+
+    @Autowired
+    public OpsRequestController(OpsRequestServiceImpl opsRequestService) {
+        this.opsRequestService = opsRequestService;
+    }
 
     @PostMapping("/record")
     @ResponseBody

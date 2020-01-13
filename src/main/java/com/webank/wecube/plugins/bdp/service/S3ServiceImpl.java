@@ -21,9 +21,12 @@ import java.io.InputStream;
 public class S3ServiceImpl implements S3Service {
 
     private Logger logger = LoggerFactory.getLogger(S3ServiceImpl.class);
-    @Autowired
     private AmazonS3 s3Client;
 
+    @Autowired
+    public S3ServiceImpl(AmazonS3 s3Client) {
+        this.s3Client = s3Client;
+    }
 
     @Override
     public InputStream downloadObject(S3InfoDto s3InfoDto) throws BdpException {

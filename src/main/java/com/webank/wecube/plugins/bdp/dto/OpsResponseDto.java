@@ -1,7 +1,7 @@
 package com.webank.wecube.plugins.bdp.dto;
 
 public class OpsResponseDto {
-    public final static String STATUS_OK = "0";
+    public final static int STATUS_OK = 0;
     private int code;
     private Object data;
     private String message;
