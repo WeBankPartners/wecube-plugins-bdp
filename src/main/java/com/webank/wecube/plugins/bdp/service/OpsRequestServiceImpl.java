@@ -1,5 +1,6 @@
 package com.webank.wecube.plugins.bdp.service;
 
+import com.webank.wecube.plugins.bdp.common.ApplicationProperties;
 import com.webank.wecube.plugins.bdp.dto.ItsmRequestDto;
 import com.webank.wecube.plugins.bdp.dto.OpsRequestDto;
 import com.webank.wecube.plugins.bdp.dto.OpsResponseDto;
@@ -26,11 +27,13 @@ public class OpsRequestServiceImpl implements OpsRequestService {
     private static Logger logger = LoggerFactory.getLogger(OpsRequestServiceImpl.class);
     private S3ServiceImpl s3Service;
     private HttpClientService httpClientService;
+    private ApplicationProperties.OpsProperties opsProperties;
 
     @Autowired
-    public OpsRequestServiceImpl(S3ServiceImpl s3Service, HttpClientService httpClientService) {
+    public OpsRequestServiceImpl(S3ServiceImpl s3Service, HttpClientService httpClientService, ApplicationProperties.OpsProperties opsProperties) {
         this.s3Service = s3Service;
         this.httpClientService = httpClientService;
+        this.opsProperties = opsProperties;
     }
 
     @Override
@@ -38,10 +41,10 @@ public class OpsRequestServiceImpl implements OpsRequestService {
 
         List<OpsResponseDto> resultList = new ArrayList<>();
         for (ItsmRequestDto itsmRequestDto : itsmRequestDtoList) {
-            InputStream inputStream = this.s3Service.downloadObject(itsmRequestDto.getS3());
+            InputStream inputStream = this.s3Service.downloadObject(itsmRequestDto.getFileUrl());
             List<Map<String, String>> dataFrameList = ExcelUtils.excelToMap(inputStream);
             OpsRequestDto requestDto = wrapDataFrameToOpsRequestDto(itsmRequestDto, dataFrameList);
-            resultList.add(this.httpClientService.initPostRequest(OpsRequestInfo.ADD_RECORD_URL, requestDto));
+            resultList.add(this.httpClientService.initPostRequest(opsProperties.getUrl() + OpsRequestInfo.ADD_RECORD_POSTFIX, requestDto));
         }
         return resultList;
     }

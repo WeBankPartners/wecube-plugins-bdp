@@ -3,19 +3,17 @@ package com.webank.wecube.plugins.bdp.dto;
 public class ItsmRequestDto {
     private String handler;
     private String formType;
-    private String opsAddress;
-    private S3InfoDto s3;
+    private String fileUrl;
     private String createTime;
     private String envType;
     private String createUser;
     private String requestNo;
     private String recordSource;
 
-    public ItsmRequestDto(String handler, String formType, String opsAddress, S3InfoDto s3, String createTime, String envType, String createUser, String requestNo, String recordSource) {
+    public ItsmRequestDto(String handler, String formType, String fileUrl, String createTime, String envType, String createUser, String requestNo, String recordSource) {
         this.handler = handler;
         this.formType = formType;
-        this.opsAddress = opsAddress;
-        this.s3 = s3;
+        this.fileUrl = fileUrl;
         this.createTime = createTime;
         this.envType = envType;
         this.createUser = createUser;
@@ -42,20 +40,12 @@ public class ItsmRequestDto {
         this.formType = formType;
     }
 
-    public String getOpsAddress() {
-        return opsAddress;
+    public String getFileUrl() {
+        return fileUrl;
     }
 
-    public void setOpsAddress(String opsAddress) {
-        this.opsAddress = opsAddress;
-    }
-
-    public S3InfoDto getS3() {
-        return s3;
-    }
-
-    public void setS3(S3InfoDto s3) {
-        this.s3 = s3;
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     public String getCreateTime() {
