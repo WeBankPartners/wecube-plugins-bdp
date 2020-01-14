@@ -15,6 +15,7 @@
 
     <!-- 4.系统参数 - 描述运行本插件包需要的系统参数 -->
     <systemParameters>
+        <systemParameter name="OPS_URL" defaultValue="http://localhost:8081" scopeType="bdp" />
     </systemParameters>
 
     <!-- 5.权限设定 -->
@@ -24,7 +25,7 @@
     <!-- 6.运行资源 - 描述部署运行本插件包需要的基础资源(如主机、虚拟机、容器、数据库等) -->
     <resourceDependencies>
         <docker imageName="{{REPOSITORY}}:{{VERSION}}" containerName="wecube-plugins-bdp"
-                portBindings="{{ALLOCATE_PORT}}:8081" envVariables="OPS_SERVER_URL={{ops_url}}"/>
+                portBindings="{{ALLOCATE_PORT}}:8081" envVariables="OPS_SERVER_URL={{OPS_URL}}"/>
     </resourceDependencies>
 
     <!-- 7.插件列表 - 描述插件包中单个插件的输入和输出 -->
@@ -32,19 +33,15 @@
         <plugin id="ops-add-record" name="OPS add record">
             <interface action="addRecord" path="/bdp/record" httpMethod='POST'>
                 <inputParameters>
-                    <parameter datatype="string" mappingType='context' required='Y'>handler</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>formType</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>fileUrl</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>createTime</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>envType</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>createUser</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>requestNo</parameter>
-                    <parameter datatype="string" mappingType='context' required='Y'>recordSource</parameter>
+                    <parameter datatype="string" mappingType='constant' required='N'>handler</parameter>
+                    <parameter datatype="string" mappingType='entity' mappingEntityExpression="service-mgmt:service_request.attach_file_id>service-mgmt:attach_file.s3_url" required='Y'>fileUrl</parameter>
+                    <parameter datatype="string" mappingType='entity' mappingEntityExpression="service-mgmt:service_request.report_time" required='Y'>createTime</parameter>
+                    <parameter datatype="string" mappingType='entity' mappingEntityExpression="service-mgmt:service_request.env_type" required='Y'>envType</parameter>
+                    <parameter datatype="string" mappingType='entity' mappingEntityExpression="service-mgmt:service_request.reporter" required='Y'>createUser</parameter>
+                    <parameter datatype="string" mappingType='entity' mappingEntityExpression="service-mgmt:service_request.id" required='Y'>requestNo</parameter>
+                    <parameter datatype="string" mappingType='constant' required='Y'>recordSource</parameter>
                 </inputParameters>
                 <outputParameters>
-                    <parameter datatype="integer">code</parameter>
-                    <parameter datatype="string">data</parameter>
-                    <parameter datatype="string">message</parameter>
                 </outputParameters>
             </interface>
         </plugin>
