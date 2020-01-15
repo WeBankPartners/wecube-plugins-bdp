@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.webank.wecube.plugins</groupId>
     <artifactId>wecube-plugins-bdp</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>wecube-plugins-bdp</name>
     <description>WeCube Plugins BDP</description>
 
