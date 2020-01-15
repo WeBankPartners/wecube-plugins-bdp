@@ -157,7 +157,6 @@ public class HttpClientConfig {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate template = restTemplateBuilder().build();
-        template.setErrorHandler(new HttpRequestErrorHandler());
 //        template.setInterceptors(Collections.singletonList(restTemplateInterceptor));
         return template;
     }
@@ -177,6 +176,7 @@ public class HttpClientConfig {
         public void customize(RestTemplate restTemplate) {
             restTemplate.setRequestFactory(clientHttpRequestFactory());
             restTemplate.getInterceptors().add(new CustomClientHttpRequestInterceptor());
+            restTemplate.setErrorHandler(new HttpRequestErrorHandler());
         }
     }
 

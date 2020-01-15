@@ -7,9 +7,5 @@ spring:
     location: classpath:/banner.txt
 
 plugins:
-  itsm:
-    s3:
-      host: 129.204.99.160
-      port: 9000
-      username: access_key
-      password: secret_key
+  ops:
+    url: http://localhost:9080/ops
