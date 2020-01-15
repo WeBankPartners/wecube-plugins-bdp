@@ -58,8 +58,7 @@ public class OpsRequestServiceImpl implements OpsRequestService {
                 itsmRequestDto.getCreateTime(),
                 itsmRequestDto.getEnvType(),
                 itsmRequestDto.getCreateUser(),
-                itsmRequestDto.getRequestNo(),
-                itsmRequestDto.getRecordSource());
+                itsmRequestDto.getRequestNo());
     }
 
     private boolean isOpsOperationCorrect(OpsResponseDto opsResponseDto) {

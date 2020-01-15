@@ -7,16 +7,14 @@ public class ItsmRequestDto {
     private String envType;
     private String createUser;
     private String requestNo;
-    private String recordSource;
 
-    public ItsmRequestDto(String handler, String fileUrl, String createTime, String envType, String createUser, String requestNo, String recordSource) {
+    public ItsmRequestDto(String handler, String fileUrl, String createTime, String envType, String createUser, String requestNo) {
         this.handler = handler;
         this.fileUrl = fileUrl;
         this.createTime = createTime;
         this.envType = envType;
         this.createUser = createUser;
         this.requestNo = requestNo;
-        this.recordSource = recordSource;
     }
 
     public ItsmRequestDto() {
@@ -68,13 +66,5 @@ public class ItsmRequestDto {
 
     public void setRequestNo(String requestNo) {
         this.requestNo = requestNo;
-    }
-
-    public String getRecordSource() {
-        return recordSource;
-    }
-
-    public void setRecordSource(String recordSource) {
-        this.recordSource = recordSource;
     }
 }

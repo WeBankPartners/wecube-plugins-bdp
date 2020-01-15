@@ -8,16 +8,15 @@ public class OpsRequestDto {
     private String envType;
     private String createUser;
     private String requestNo;
-    private String recordSource;
+    private String recordSource = "WeCube";
 
-    public OpsRequestDto(String handler, String data, String createTime, String envType, String createUser, String requestNo, String recordSource) {
+    public OpsRequestDto(String handler, String data, String createTime, String envType, String createUser, String requestNo) {
         this.handler = handler;
         this.data = data;
         this.createTime = createTime;
         this.envType = envType;
         this.createUser = createUser;
         this.requestNo = requestNo;
-        this.recordSource = recordSource;
     }
 
     public OpsRequestDto() {
