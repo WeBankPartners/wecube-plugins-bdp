@@ -1,7 +1,6 @@
 package com.webank.wecube.plugins.bdp.utils;
 
 import com.webank.wecube.plugins.bdp.common.BdpException;
-import com.webank.wecube.plugins.bdp.common.HttpRequestErrorHandler;
 import com.webank.wecube.plugins.bdp.dto.OpsResponseDto;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -52,8 +51,6 @@ public class RestTemplateUtils {
         headers.setAccept(Collections.singletonList(MediaType.ALL));
         // setup http request entity
         HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
-        // set restTemplate error handler
-        restTemplate.setErrorHandler(new HttpRequestErrorHandler());
         // send request and exchange the response to target class
         return restTemplate.exchange(requestUri, method, requestEntity, Resource.class);
     }

@@ -1,6 +1,5 @@
 package com.webank.wecube.plugins.bdp.service;
 
-import com.webank.wecube.plugins.bdp.common.ApplicationProperties;
 import com.webank.wecube.plugins.bdp.common.BdpException;
 import com.webank.wecube.plugins.bdp.support.HttpClientService;
 import org.slf4j.Logger;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -21,12 +22,10 @@ import java.util.Objects;
 public class S3ServiceImpl implements S3Service {
 
     private Logger logger = LoggerFactory.getLogger(S3ServiceImpl.class);
-    private ApplicationProperties.ItsmS3Properties itsmS3Properties;
     private HttpClientService httpClientService;
 
     @Autowired
-    public S3ServiceImpl(ApplicationProperties.ItsmS3Properties itsmS3Properties, HttpClientService httpClientService) {
-        this.itsmS3Properties = itsmS3Properties;
+    public S3ServiceImpl(HttpClientService httpClientService) {
         this.httpClientService = httpClientService;
     }
 
@@ -34,8 +33,8 @@ public class S3ServiceImpl implements S3Service {
     public InputStream downloadObject(String fileUrl) throws BdpException {
         InputStream resultInputStream;
         try {
-            String msg = String.format("Downloading the file from: [%s]", fileUrl);
-            logger.info(msg);
+            fileUrl = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8.name());
+            logger.info(String.format("Downloading the file from: [%s]", fileUrl));
             ResponseEntity<Resource> resourceResponseEntity = this.httpClientService.initDownloadRequest(fileUrl);
             resultInputStream = Objects.requireNonNull(resourceResponseEntity.getBody()).getInputStream();
         } catch (IOException ex) {
