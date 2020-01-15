@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="bdp" version="v0.1.2">
+
+    <!-- 1.依赖分析 - 描述运行本插件包需要的其他插件包 -->
+    <packageDependencies>
+    </packageDependencies>
+
+    <!-- 2.菜单注入 - 描述运行本插件包需要注入的菜单 -->
+    <menus>
+    </menus>
+
+    <!-- 3.数据模型 - 描述本插件包的数据模型,并且描述和Framework数据模型的关系 -->
+    <dataModel isDynamic="false">
+    </dataModel>
+
+    <!-- 4.系统参数 - 描述运行本插件包需要的系统参数 -->
+    <systemParameters>
+        <systemParameter name="OPS_URL" defaultValue="http://localhost:8081" scopeType="bdp"/>
+    </systemParameters>
+
+    <!-- 5.权限设定 -->
+    <authorities>
+    </authorities>
+
+    <!-- 6.运行资源 - 描述部署运行本插件包需要的基础资源(如主机、虚拟机、容器、数据库等) -->
+    <resourceDependencies>
+        <docker imageName="{{REPOSITORY}}:{{VERSION}}" containerName="wecube-plugins-bdp"
+                portBindings="{{ALLOCATE_PORT}}:8081" envVariables="OPS_SERVER_URL={{OPS_URL}}"/>
+    </resourceDependencies>
+
+    <!-- 7.插件列表 - 描述插件包中单个插件的输入和输出 -->
+    <plugins>
+        <plugin id="ops-add-record" name="OPS add record" targetPackage="service-mgmt" targetEntity="service_request">
+            <interface action="addRecord" path="/bdp/record" httpMethod='POST'>
+                <inputParameters>
+                    <parameter datatype="string" mappingType='constant' required='N'>handler</parameter>
+                    <parameter datatype="string" mappingType='entity'
+                               mappingEntityExpression="service-mgmt:service_request.attach_file_id>service-mgmt:attach_file.s3_url"
+                               required='Y'>fileUrl
+                    </parameter>
+                    <parameter datatype="string" mappingType='entity'
+                               mappingEntityExpression="service-mgmt:service_request.report_time" required='Y'>
+                        createTime
+                    </parameter>
+                    <parameter datatype="string" mappingType='entity'
+                               mappingEntityExpression="service-mgmt:service_request.env_type" required='Y'>envType
+                    </parameter>
+                    <parameter datatype="string" mappingType='entity'
+                               mappingEntityExpression="service-mgmt:service_request.reporter" required='Y'>createUser
+                    </parameter>
+                    <parameter datatype="string" mappingType='entity'
+                               mappingEntityExpression="service-mgmt:service_request.id" required='Y'>requestNo
+                    </parameter>
+                </inputParameters>
+                <outputParameters>
+                </outputParameters>
+            </interface>
+        </plugin>
+    </plugins>
+</package>

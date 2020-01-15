@@ -1,0 +1,11 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bdp
+spring:
+  banner:
+    location: classpath:/banner.txt
+
+plugins:
+  ops:
+    url: http://localhost:9080/ops
