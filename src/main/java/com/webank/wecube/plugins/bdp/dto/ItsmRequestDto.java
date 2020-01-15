@@ -2,7 +2,6 @@ package com.webank.wecube.plugins.bdp.dto;
 
 public class ItsmRequestDto {
     private String handler;
-    private String formType;
     private String fileUrl;
     private String createTime;
     private String envType;
@@ -10,9 +9,8 @@ public class ItsmRequestDto {
     private String requestNo;
     private String recordSource;
 
-    public ItsmRequestDto(String handler, String formType, String fileUrl, String createTime, String envType, String createUser, String requestNo, String recordSource) {
+    public ItsmRequestDto(String handler, String fileUrl, String createTime, String envType, String createUser, String requestNo, String recordSource) {
         this.handler = handler;
-        this.formType = formType;
         this.fileUrl = fileUrl;
         this.createTime = createTime;
         this.envType = envType;
@@ -30,14 +28,6 @@ public class ItsmRequestDto {
 
     public void setHandler(String handler) {
         this.handler = handler;
-    }
-
-    public String getFormType() {
-        return formType;
-    }
-
-    public void setFormType(String formType) {
-        this.formType = formType;
     }
 
     public String getFileUrl() {

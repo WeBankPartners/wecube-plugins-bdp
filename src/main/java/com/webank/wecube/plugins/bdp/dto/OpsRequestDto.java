@@ -10,9 +10,8 @@ public class OpsRequestDto {
     private String requestNo;
     private String recordSource;
 
-    public OpsRequestDto(String handler, String formType, String data, String createTime, String envType, String createUser, String requestNo, String recordSource) {
+    public OpsRequestDto(String handler, String data, String createTime, String envType, String createUser, String requestNo, String recordSource) {
         this.handler = handler;
-        this.formType = formType;
         this.data = data;
         this.createTime = createTime;
         this.envType = envType;

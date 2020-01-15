@@ -1,6 +1,7 @@
 package com.webank.wecube.plugins.bdp.service;
 
 import com.webank.wecube.plugins.bdp.common.ApplicationProperties;
+import com.webank.wecube.plugins.bdp.common.BdpException;
 import com.webank.wecube.plugins.bdp.dto.ItsmRequestDto;
 import com.webank.wecube.plugins.bdp.dto.OpsRequestDto;
 import com.webank.wecube.plugins.bdp.dto.OpsResponseDto;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,28 +37,32 @@ public class OpsRequestServiceImpl implements OpsRequestService {
     }
 
     @Override
-    public List<OpsResponseDto> addRecord(List<ItsmRequestDto> itsmRequestDtoList) {
+    public void addRecord(List<ItsmRequestDto> itsmRequestDtoList) throws BdpException {
 
-        List<OpsResponseDto> resultList = new ArrayList<>();
         for (ItsmRequestDto itsmRequestDto : itsmRequestDtoList) {
             InputStream inputStream = this.s3Service.downloadObject(itsmRequestDto.getFileUrl());
             List<Map<String, String>> dataFrameList = ExcelUtils.excelToMap(inputStream);
             OpsRequestDto requestDto = wrapDataFrameToOpsRequestDto(itsmRequestDto, dataFrameList);
-            resultList.add(this.httpClientService.initPostRequest(opsProperties.getUrl() + OpsRequestInfo.ADD_RECORD_POSTFIX, requestDto));
+            OpsResponseDto responseDto = this.httpClientService.initPostRequest(opsProperties.getUrl() + OpsRequestInfo.ADD_RECORD_POSTFIX, requestDto);
+            if (!isOpsOperationCorrect(responseDto)) {
+                throw new BdpException(responseDto.getMessage());
+            }
         }
-        return resultList;
     }
 
     private OpsRequestDto wrapDataFrameToOpsRequestDto(ItsmRequestDto itsmRequestDto, List<Map<String, String>> dataFrameList) {
         logger.info("Wrapping up the data frame to the request JSON form of OPS");
         return new OpsRequestDto(
                 itsmRequestDto.getHandler(),
-                itsmRequestDto.getFormType(),
                 JsonUtils.toBase64String(JsonUtils.toJsonString(dataFrameList)),
                 itsmRequestDto.getCreateTime(),
                 itsmRequestDto.getEnvType(),
                 itsmRequestDto.getCreateUser(),
                 itsmRequestDto.getRequestNo(),
                 itsmRequestDto.getRecordSource());
+    }
+
+    private boolean isOpsOperationCorrect(OpsResponseDto opsResponseDto) {
+        return OpsResponseDto.STATUS_OK == opsResponseDto.getCode();
     }
 }
