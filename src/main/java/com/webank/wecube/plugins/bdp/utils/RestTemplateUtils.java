@@ -1,16 +1,22 @@
 package com.webank.wecube.plugins.bdp.utils;
 
 import com.webank.wecube.plugins.bdp.common.BdpException;
+import com.webank.wecube.plugins.bdp.common.HttpRequestErrorHandler;
 import com.webank.wecube.plugins.bdp.dto.OpsResponseDto;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author howechen
+ */
 public class RestTemplateUtils {
 
     /**
@@ -30,6 +36,26 @@ public class RestTemplateUtils {
 
         // send request and exchange the response to target class
         return restTemplate.exchange(requestUri, method, requestEntity, String.class);
+    }
+
+    /**
+     * Send get request to url for downloading files
+     *
+     * @param restTemplate restTemplate
+     * @param requestUri   target uri
+     * @param headers      request headers
+     * @return Resource type ResponseEntity
+     */
+    public static ResponseEntity<Resource> sendGetRequestForDownloading(RestTemplate restTemplate, String requestUri, HttpHeaders headers) {
+        HttpMethod method = HttpMethod.GET;
+        // set Accept:
+        headers.setAccept(Collections.singletonList(MediaType.ALL));
+        // setup http request entity
+        HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
+        // set restTemplate error handler
+        restTemplate.setErrorHandler(new HttpRequestErrorHandler());
+        // send request and exchange the response to target class
+        return restTemplate.exchange(requestUri, method, requestEntity, Resource.class);
     }
 
     /**
@@ -165,5 +191,17 @@ public class RestTemplateUtils {
             throw new BdpException(msg);
         }
         return opsResponseDto;
+    }
+
+    public static <T> void checkResponseEntity(ResponseEntity<T> responseEntity) throws BdpException {
+        if (StringUtils.isEmpty(responseEntity.getBody()) || responseEntity.getStatusCode().isError()) {
+            if (responseEntity.getStatusCode().is4xxClientError()) {
+                throw new BdpException(String.format("The target server returned error code: [%s].", responseEntity.getStatusCode().toString()));
+            }
+
+            if (responseEntity.getStatusCode().is5xxServerError()) {
+                throw new BdpException(String.format("The target server returned error code: [%s], which is an target server's internal error.", responseEntity.getStatusCode().toString()));
+            }
+        }
     }
 }
