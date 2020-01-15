@@ -29,9 +29,6 @@ target/
 *.classpath
 *.orig
 
-### VSCode ###
-.vscode
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -56,3 +53,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /target/
+
+### package ###
+package

@@ -10,5 +10,11 @@
             <name>Nexus tencentyun</name>
             <url>http://mirrors.tencentyun.com/nexus/repository/maven-public/</url>
         </mirror>
+        <mirror>
+            <id>alimaven</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </mirror>
     </mirrors>
 </settings>
