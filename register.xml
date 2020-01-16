@@ -35,21 +35,21 @@
                 <inputParameters>
                     <parameter datatype="string" mappingType='constant' required='N'>handler</parameter>
                     <parameter datatype="string" mappingType='entity'
-                               mappingEntityExpression="service-mgmt:service_request.attach_file_id>service-mgmt:attach_file.s3_url"
+                               mappingEntityExpression="service-mgmt:serviceRequest.attachFileId>service-mgmt:attachFile.s3Url"
                                required='Y'>fileUrl
                     </parameter>
                     <parameter datatype="string" mappingType='entity'
-                               mappingEntityExpression="service-mgmt:service_request.report_time" required='Y'>
+                               mappingEntityExpression="service-mgmt:serviceRequest.reportTime" required='Y'>
                         createTime
                     </parameter>
                     <parameter datatype="string" mappingType='entity'
-                               mappingEntityExpression="service-mgmt:service_request.env_type" required='Y'>envType
+                               mappingEntityExpression="service-mgmt:serviceRequest.envType" required='Y'>envType
                     </parameter>
                     <parameter datatype="string" mappingType='entity'
-                               mappingEntityExpression="service-mgmt:service_request.reporter" required='Y'>createUser
+                               mappingEntityExpression="service-mgmt:serviceRequest.reporter" required='Y'>createUser
                     </parameter>
                     <parameter datatype="string" mappingType='entity'
-                               mappingEntityExpression="service-mgmt:service_request.id" required='Y'>requestNo
+                               mappingEntityExpression="service-mgmt:serviceRequest.id" required='Y'>requestNo
                     </parameter>
                 </inputParameters>
                 <outputParameters>
