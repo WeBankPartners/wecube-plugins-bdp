@@ -30,7 +30,7 @@
 
     <!-- 7.插件列表 - 描述插件包中单个插件的输入和输出 -->
     <plugins>
-        <plugin id="ops-add-record" name="OPS add record" targetPackage="service-mgmt" targetEntity="service_request">
+        <plugin id="ops-add-record" name="OPS add record" targetPackage="service-mgmt" targetEntity="serviceRequest">
             <interface action="addRecord" path="/bdp/record" httpMethod='POST'>
                 <inputParameters>
                     <parameter datatype="string" mappingType='constant' required='N'>handler</parameter>
