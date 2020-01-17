@@ -1,5 +1,8 @@
 package com.webank.wecube.plugins.bdp.dto;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class OpsRequestDto {
     private String handler;
     private String formType;
@@ -86,4 +89,17 @@ public class OpsRequestDto {
         this.recordSource = recordSource;
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("handler", handler)
+                .append("formType", formType)
+                .append("data", data)
+                .append("createTime", createTime)
+                .append("envType", envType)
+                .append("createUser", createUser)
+                .append("requestNo", requestNo)
+                .append("recordSource", recordSource)
+                .toString();
+    }
 }
