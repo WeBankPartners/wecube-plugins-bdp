@@ -1,5 +1,6 @@
 package com.webank.wecube.plugins.bdp.config;
 
+import com.webank.wecube.plugins.bdp.common.BdpException;
 import com.webank.wecube.plugins.bdp.common.HttpClientProperties;
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
@@ -35,6 +36,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -191,13 +193,13 @@ public class HttpClientConfig {
         }
 
         private void logRequestDetails(HttpRequest request) {
-            log.debug("Request Headers: {}", request.getHeaders());
-            log.debug("Request Method: {}", request.getMethod());
-            log.debug("Request URI: {}", request.getURI());
+            log.info("Request Headers: {}", request.getHeaders());
+            log.info("Request Method: {}", request.getMethod());
+            log.info("Request URI: {}", request.getURI());
         }
 
         private void logResponseDetails(ClientHttpResponse response) {
-            log.debug("Response Headers: {}", response.getHeaders());
+            log.info("Response Headers: {}", response.getHeaders());
         }
     }
 
@@ -215,8 +217,16 @@ public class HttpClientConfig {
         }
 
         @Override
-        public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
+        public void handleError(ClientHttpResponse clientHttpResponse) throws IOException, BdpException {
+            if (StringUtils.isEmpty(clientHttpResponse.getBody()) || clientHttpResponse.getStatusCode().isError()) {
+                if (clientHttpResponse.getStatusCode().is4xxClientError()) {
+                    throw new BdpException(String.format("The target server returned error code: [%s]. The target server doesn't implement the request controller.", clientHttpResponse.getStatusCode().toString()));
+                }
 
+                if (clientHttpResponse.getStatusCode().is5xxServerError()) {
+                    throw new BdpException(String.format("The target server returned error code: [%s], which is an target server's internal error.", clientHttpResponse.getStatusCode().toString()));
+                }
+            }
         }
     }
 }

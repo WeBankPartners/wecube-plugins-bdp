@@ -15,7 +15,7 @@ public class ApplicationConstants {
         public static final String BASE_PACKAGE = "com.webank.wecube.plugins.bdp";
         public static final String TITLE = "WeCube Plugins BDP Documentation";
         public final static String V1 = "v1";
-        public final static String URL_PREFIX = "bdp/" + V1;
+        public final static String URL_PREFIX = V1;
     }
 }
 

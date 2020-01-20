@@ -8,4 +8,4 @@ spring:
 
 plugins:
   ops:
-    url: http://localhost:9080/ops
+    url: http://localhost:9080
