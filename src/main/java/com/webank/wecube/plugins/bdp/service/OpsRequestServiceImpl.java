@@ -52,13 +52,21 @@ public class OpsRequestServiceImpl implements OpsRequestService {
 
     private OpsRequestDto wrapDataFrameToOpsRequestDto(ItsmRequestDto itsmRequestDto, List<Map<String, String>> dataFrameList) {
         logger.info("Wrapping up the data frame to the request JSON form of OPS");
+        long transferredRequestNo;
+        try {
+            transferredRequestNo = Long.parseLong(itsmRequestDto.getRequestNo());
+        } catch (NumberFormatException ex) {
+            String msg = String.format("Cannot transfer ITSM request No to Long type, the error requestNo is: [%s]", itsmRequestDto.getRequestNo());
+            logger.error(msg);
+            throw new BdpException(msg);
+        }
         return new OpsRequestDto(
                 itsmRequestDto.getHandler(),
                 JsonUtils.toBase64String(JsonUtils.toJsonString(dataFrameList)),
                 itsmRequestDto.getCreateTime(),
                 itsmRequestDto.getEnvType(),
                 itsmRequestDto.getCreateUser(),
-                itsmRequestDto.getRequestNo());
+                transferredRequestNo);
     }
 
     private boolean isOpsOperationCorrect(OpsResponseDto opsResponseDto) {

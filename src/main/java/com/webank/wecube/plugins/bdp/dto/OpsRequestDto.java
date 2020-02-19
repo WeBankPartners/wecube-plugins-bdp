@@ -3,17 +3,20 @@ package com.webank.wecube.plugins.bdp.dto;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * @author howechen
+ */
 public class OpsRequestDto {
     private String handler;
-    private String formType;
+    private String formType = "BDP_CREATE_USER";
     private String data;
     private String createTime;
     private String envType;
     private String createUser;
-    private String requestNo;
+    private Long requestNo;
     private String recordSource = "WeCube";
 
-    public OpsRequestDto(String handler, String data, String createTime, String envType, String createUser, String requestNo) {
+    public OpsRequestDto(String handler, String data, String createTime, String envType, String createUser, Long requestNo) {
         this.handler = handler;
         this.data = data;
         this.createTime = createTime;
@@ -73,11 +76,11 @@ public class OpsRequestDto {
         this.createUser = createUser;
     }
 
-    public String getRequestNo() {
+    public Long getRequestNo() {
         return requestNo;
     }
 
-    public void setRequestNo(String requestNo) {
+    public void setRequestNo(Long requestNo) {
         this.requestNo = requestNo;
     }
 
